@@ -10,6 +10,7 @@ import addressRoutes from './resources/address/address.routes';
 import serviceRoutes from './resources/service/service.routes';
 import notificationRoutes from './resources/notification/notification.routes';
 import orderRoutes from './resources/order/order.routes';
+import Services from './resources/service/service.model';
 
 class App {
   public express: Application
@@ -38,7 +39,7 @@ class App {
   }
 
   private initializeRoutes() {
-    this.express.get('/', (req: Request, res: Response) => {
+    this.express.get('/', async (req: Request, res: Response) => {
       res.json({message: 'deploy successfully'})
     })
     this.express.use('/notification', notificationRoutes)
