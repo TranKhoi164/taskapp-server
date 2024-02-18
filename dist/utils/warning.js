@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authorizationWarn = exports.phoneNumberWarn = exports.fullNameWarn = exports.invalidProvidedInforWarn = exports.unMatchPasswordWarn = exports.invalidPasswordWarn = exports.invalidEmailWarn = exports.missingInforWarn = exports.unregisteredAccountWarn = void 0;
+exports.unregisteredAccountWarn = "Tài khoản chưa được đăng ký";
+exports.missingInforWarn = "Chưa cung cấp đủ thông tin";
+exports.invalidEmailWarn = "Email không hợp lệ";
+exports.invalidPasswordWarn = "Mật khẩu chứa ít nhất 8 kí tự gồm số, chữ cái thường, in hoa, kí tự đặc biệt";
+exports.unMatchPasswordWarn = "Mật khẩu cung cấp không đúng";
+exports.invalidProvidedInforWarn = "Thông tin cung cấp không hợp lệ";
+exports.fullNameWarn = "Họ và tên không dài quá 30 kí tự";
+exports.phoneNumberWarn = 'Số điện thoại không hợp lệ';
+exports.authorizationWarn = "Chưa được cấp quyền để thực hiện hành động này";

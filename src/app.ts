@@ -26,6 +26,8 @@ class App {
   private initializeMiddleware() {
     if (process.env.NODE_ENV==="development") {
       this.express.use(cors({origin: process.env.CLIENT_DEV}))
+    } else if (process.env.NODE_ENV==="testing") {
+      this.express.use(cors({origin: process.env.CLIENT_TEST}))
     } else {
       this.express.use(cors({origin: process.env.CLIENT_PRO}))
     }
