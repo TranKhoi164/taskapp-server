@@ -1,4 +1,4 @@
-import express, {Application} from 'express'
+import express, {Application, Request, Response} from 'express'
 
 import mongoose from "mongoose";
 import fileUpload from "express-fileupload"
@@ -38,6 +38,9 @@ class App {
   }
 
   private initializeRoutes() {
+    this.express.use('/', (req: Request, res: Response) => {
+      res.json({message: 'deploy successfully'})
+    })
     this.express.use('/notification', notificationRoutes)
     this.express.use('/account', accountRoutes)
     this.express.use('/upload', uploadRoutes)
