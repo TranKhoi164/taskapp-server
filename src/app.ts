@@ -38,7 +38,7 @@ class App {
   }
 
   private initializeRoutes() {
-    this.express.use('/', (req: Request, res: Response) => {
+    this.express.get('/', (req: Request, res: Response) => {
       res.json({message: 'deploy successfully'})
     })
     this.express.use('/notification', notificationRoutes)
