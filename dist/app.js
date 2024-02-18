@@ -47,7 +47,7 @@ class App {
         this.express.use(express_1.default.urlencoded({ extended: true }));
     }
     initializeRoutes() {
-        this.express.use('/', (req, res) => {
+        this.express.get('/', (req, res) => {
             res.json({ message: 'deploy successfully' });
         });
         this.express.use('/notification', notification_routes_1.default);
