@@ -35,6 +35,9 @@ class App {
         if (process.env.NODE_ENV === "development") {
             this.express.use((0, cors_1.default)({ origin: process.env.CLIENT_DEV }));
         }
+        else if (process.env.NODE_ENV === "testing") {
+            this.express.use((0, cors_1.default)({ origin: process.env.CLIENT_TEST }));
+        }
         else {
             this.express.use((0, cors_1.default)({ origin: process.env.CLIENT_PRO }));
         }
@@ -44,6 +47,9 @@ class App {
         this.express.use(express_1.default.urlencoded({ extended: true }));
     }
     initializeRoutes() {
+        this.express.use('/', (req, res) => {
+            res.json({ message: 'deploy successfully' });
+        });
         this.express.use('/notification', notification_routes_1.default);
         this.express.use('/account', account_routes_1.default);
         this.express.use('/upload', upload_routes_1.default);
