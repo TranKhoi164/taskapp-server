@@ -8,3 +8,11 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = new app_1.default(Number(process.env.PORT));
 app.listen();
+// {
+//   "src": "/(.*)",
+//   "dest": "/",
+//   "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+//   "headers": {
+//     "Access-Control-Allow-Origin": "*"
+//   }
+// }

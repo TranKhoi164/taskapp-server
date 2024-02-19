@@ -43,17 +43,15 @@ class App {
         //   }
         //   next();
         // });
-        if (process.env.NODE_ENV === "development") {
-            console.log('dev: ', process.env.CLIENT_DEV);
-            this.express.use((0, cors_1.default)({ origin: process.env.CLIENT_DEV }));
-        }
-        else if (process.env.NODE_ENV === "testing") {
-            this.express.use((0, cors_1.default)({ origin: process.env.CLIENT_TEST }));
-        }
-        else {
-            this.express.use((0, cors_1.default)({ origin: process.env.CLIENT_PRO }));
-        }
-        // this.express.use(cors({origin: 'http://localhost:2999'}))
+        // if (process.env.NODE_ENV==="development") {
+        //   console.log('dev: ', process.env.CLIENT_DEV);
+        //   this.express.use(cors({origin: process.env.CLIENT_DEV}))
+        // } else if (process.env.NODE_ENV==="testing") {
+        //   this.express.use(cors({origin: process.env.CLIENT_TEST}))
+        // } else {
+        //   this.express.use(cors({origin: process.env.CLIENT_PRO}))
+        // }
+        this.express.use((0, cors_1.default)({ origin: '*' }));
         this.express.use((0, cookie_parser_1.default)());
         this.express.use((0, express_fileupload_1.default)({ useTempFiles: true }));
         this.express.use(express_1.default.json({ limit: '2mb' }));
