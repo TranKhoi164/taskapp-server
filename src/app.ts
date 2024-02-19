@@ -25,26 +25,26 @@ class App {
   }
 
   private initializeMiddleware() {
-    this.express.use((req, res, next) => {
-      const corsWhitelist = [
-          'http://localhost:3000',
-          'http://localhost:2999',
-      ];
-      if (corsWhitelist.includes(String(req?.headers?.origin))) {
-          res.header('Access-Control-Allow-Origin', req.headers.origin);
-          res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-      }
+    // this.express.use((req, res, next) => {
+    //   const corsWhitelist = [
+    //       'http://localhost:3000',
+    //       'http://localhost:2999',
+    //   ];
+    //   if (corsWhitelist.includes(String(req?.headers?.origin))) {
+    //       res.header('Access-Control-Allow-Origin', req.headers.origin);
+    //       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    //   }
   
-      next();
-    });
-    // if (process.env.NODE_ENV==="development") {
-    //   console.log('dev: ', process.env.CLIENT_DEV);
-    //   this.express.use(cors({origin: process.env.CLIENT_DEV}))
-    // } else if (process.env.NODE_ENV==="testing") {
-    //   this.express.use(cors({origin: process.env.CLIENT_TEST}))
-    // } else {
-    //   this.express.use(cors({origin: process.env.CLIENT_PRO}))
-    // }
+    //   next();
+    // });
+    if (process.env.NODE_ENV==="development") {
+      console.log('dev: ', process.env.CLIENT_DEV);
+      this.express.use(cors({origin: process.env.CLIENT_DEV}))
+    } else if (process.env.NODE_ENV==="testing") {
+      this.express.use(cors({origin: process.env.CLIENT_TEST}))
+    } else {
+      this.express.use(cors({origin: process.env.CLIENT_PRO}))
+    }
     // this.express.use(cors({origin: 'http://localhost:2999'}))
     this.express.use(cookies())
     this.express.use(fileUpload({useTempFiles: true}))
