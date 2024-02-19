@@ -18,6 +18,9 @@ const mailOptionRegister = (to: string, otp: string) => {
       <div>
         <div
           style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: black;
             color: white;
             margin-top: 30px;
@@ -50,6 +53,9 @@ const mailOptionResetPassword = (to: string, otp: string) => {
       <div>
         <div
           style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: black;
             color: white;
             margin-top: 30px;

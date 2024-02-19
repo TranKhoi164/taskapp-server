@@ -27,7 +27,7 @@ class OrderController { //<{}, {}, {}, ReqQuery>
   public async createOrder(req: Request, res: Response) {
     try {
       const {user, partner, userName, location, phoneNumber, email, date, service, province, userNote, district, ward, address} = req.body
-      if (!user || !partner || !userName || !phoneNumber || !email || !date || !service || !province || !district || !ward || !address) {
+      if ( !partner || !userName || !phoneNumber || !email || !date || !service || !province || !district || !ward || !address) {
         handleException(400, missingInforWarn, res)
         return
       }
