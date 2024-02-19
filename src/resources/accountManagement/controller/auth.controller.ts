@@ -29,7 +29,7 @@ const sendOTP = async (data: any) => {
   })
   await newOTPVerification.save()
   
-  sendOTPEmail(data?.email, otp, data?.task)
+  await sendOTPEmail(data?.email, otp, data?.task)
 }
 
 
