@@ -9,7 +9,6 @@ const orderModel = new mongoose_1.default.Schema({
     user: {
         type: ObjectId,
         ref: 'account',
-        required: true
     },
     partner: {
         type: ObjectId,
@@ -19,9 +18,11 @@ const orderModel = new mongoose_1.default.Schema({
     userName: {
         type: String,
         required: true,
+        trim: true,
     },
     phoneNumber: {
         type: String,
+        trim: true,
         required: true
     },
     date: {
@@ -34,7 +35,9 @@ const orderModel = new mongoose_1.default.Schema({
         required: true
     },
     email: {
-        type: String
+        type: String,
+        lowercase: true,
+        trim: true,
     },
     userNote: {
         type: String,

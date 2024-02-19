@@ -35,7 +35,7 @@ class OrderController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { user, partner, userName, location, phoneNumber, email, date, service, province, userNote, district, ward, address } = req.body;
-                if (!user || !partner || !userName || !phoneNumber || !email || !date || !service || !province || !district || !ward || !address) {
+                if (!partner || !userName || !phoneNumber || !email || !date || !service || !province || !district || !ward || !address) {
                     (0, handleExceptions_1.default)(400, warning_1.missingInforWarn, res);
                     return;
                 }
