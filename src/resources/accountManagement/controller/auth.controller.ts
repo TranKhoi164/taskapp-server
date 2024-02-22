@@ -54,7 +54,7 @@ class AuthController implements AuthControllerInterface {
       })
     } catch (e: any) {
       if (e?.code == 11000){
-        handleException(500, 'Tài khoản đã được đăng ký từ trước', res);
+        handleException(400, 'Tài khoản đã được đăng ký từ trước', res);
         return
       }
       handleException(500, e.message, res);
@@ -99,7 +99,7 @@ class AuthController implements AuthControllerInterface {
     } catch (e: any) {
       // handleException(500, 'Tài khoản đã được tạo từ trước hoặc đang chờ xét duyệt', res);
       if (e?.code == 11000) {
-        handleException(500, 'Tài khoản đã được tạo từ trước', res)
+        handleException(400, 'Tài khoản đã được tạo từ trước', res)
         return
       }
       handleException(500, e.message, res)
@@ -116,7 +116,7 @@ class AuthController implements AuthControllerInterface {
       const { userId } = req.body
 
       await Accounts.updateOne({ _id: userId}, { verified: true })
-      await UserOTPVerification.deleteMany({userId})
+      await UserOTPVerification.deleteMany({userId: userId})
       res.json({message: "Kích hoạt tài khoản thành công, đăng nhập để vào tài khoản"})
     } catch (e: any) {
       handleException(500, e.message, res);
