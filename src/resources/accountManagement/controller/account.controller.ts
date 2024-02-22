@@ -53,6 +53,8 @@ class AccountController implements AccountControllerInterface {
       await accountFeature.filter();
       const partners = accountFeature.query;
 
+      console.log(partners);
+
       res.json({ message: "Thành công!", accounts: partners });
 
       // Accounts.find({ role: 'partner', verified: true })
@@ -73,50 +75,6 @@ class AccountController implements AccountControllerInterface {
     }
   }
 
-  public async getVerifiedPartners(req: Request, res: Response): Promise<void> {
-    try {
-      Accounts.find({ role: "partner", verified: true })
-        .populate("services")
-        .populate("addresses")
-        .select("-password")
-        .clone()
-        .then((partners: any) => {
-          res.json({ partners: partners });
-        })
-        .catch((e: any) => {
-          if (e) {
-            handleException(400, e.message, res);
-            return;
-          }
-        });
-    } catch (e: any) {
-      handleException(500, e.message, res);
-    }
-  }
-
-  public async getUnverifiedPartners(
-    req: Request,
-    res: Response
-  ): Promise<void> {
-    try {
-      Accounts.find({ role: "partner", verified: false })
-        .populate("services")
-        .select("-password")
-        .clone()
-        .then((partners: any) => {
-          res.json({ partners: partners });
-        })
-        .catch((e: any) => {
-          if (e) {
-            handleException(400, e.message, res);
-            return;
-          }
-        });
-    } catch (e: any) {
-      handleException(500, e.message, res);
-    }
-  }
-
   public async verifyPartner(req: Request, res: Response): Promise<void> {
     try {
       const { partnerId, partnerEmail } = req.body;
@@ -125,7 +83,7 @@ class AccountController implements AccountControllerInterface {
         { _id: partnerId, role: "partner" },
         { verified: true }
       );
-      sendOTPEmail(partnerEmail, "", "verifyPartner");
+      await sendOTPEmail(partnerEmail, "", "verifyPartner");
       res.json({ message: "Thành công!" });
     } catch (e: any) {
       handleException(500, e.message, res);
@@ -143,7 +101,7 @@ class AccountController implements AccountControllerInterface {
         { _id: partnerId, role: "partner" },
         { verified: false }
       );
-      sendOTPEmail(partnerEmail, "", "unverifyPartner");
+      await sendOTPEmail(partnerEmail, "", "unverifyPartner");
       res.json({ message: "Thành công!" });
     } catch (e: any) {
       handleException(500, e.message, res);
@@ -155,7 +113,7 @@ class AccountController implements AccountControllerInterface {
       const { partnerId, partnerEmail } = req.body;
       console.log(partnerEmail);
       await Accounts.deleteOne({ _id: partnerId, role: "partner" });
-      sendOTPEmail(partnerEmail, "", "deletePartner");
+      await sendOTPEmail(partnerEmail, "", "deletePartner");
       res.json({ message: "Thành công!" });
     } catch (e: any) {
       handleException(500, e.message, res);

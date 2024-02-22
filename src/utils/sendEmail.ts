@@ -16,23 +16,19 @@ const mailOptionRegister = (to: string, otp: string) => {
       <h2>Cảm ơn bạn vì đã đăng ký</h2>
       <div>Đây là mã OTP của bạn, mã OTP này có hiệu lực trong 5 phút</div>
       <div>
-        <div
+        <button
           style="
-            display: flex;
-            align-items: center;
-            justify-content: center;
             background: black;
             color: white;
             margin-top: 30px;
             width: 150px;
             height: 40px;
-            border-radius: 30px;
             cursor: pointer;
             font-size: 15px;
           "
         >
           ${otp}
-        </div>
+        </button>
       </div>
     </div>
   </div>
@@ -51,23 +47,18 @@ const mailOptionResetPassword = (to: string, otp: string) => {
     <div>
       <div>Mã OTP dùng để tạo mật khẩu mới, mã OTP này có hiệu lực trong 5 phút</div>
       <div>
-        <div
+        <button
           style="
-            display: flex;
-            align-items: center;
-            justify-content: center;
             background: black;
             color: white;
             margin-top: 30px;
             width: 150px;
             height: 40px;
-            border-radius: 30px;
-            cursor: pointer;
             font-size: 15px;
           "
         >
           ${otp}
-        </div>
+        </button>
       </div>
     </div>
   </div>

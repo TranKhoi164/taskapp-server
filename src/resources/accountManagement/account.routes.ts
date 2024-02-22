@@ -49,8 +49,8 @@ accountRoutes.patch('/update_basic', accountMiddleware.authCheckMiddleware, acco
 accountRoutes.patch('/update_password', accountMiddleware.authCheckMiddleware, accountMiddleware.updatePasswordMiddleware, accountCtrl.updateAccountPassword)
 //todo: partnerRoutes
 //1 argument type: {active}
-accountRoutes.get('/verified_partners', accountCtrl.getVerifiedPartners)
-accountRoutes.get('/unverified_partners', accountMiddleware.authCheckMiddleware, accountMiddleware.authAdminMiddleware, accountCtrl.getUnverifiedPartners)
+// accountRoutes.get('/verified_partners', accountCtrl.getVerifiedPartners)
+// accountRoutes.get('/unverified_partners', accountMiddleware.authCheckMiddleware, accountMiddleware.authAdminMiddleware, accountCtrl.getUnverifiedPartners)
 //1 arg: {partnerId}
 accountRoutes.patch('/verify_partner', accountMiddleware.authCheckMiddleware, accountMiddleware.authAdminMiddleware, accountCtrl.verifyPartner)
 accountRoutes.patch('/cancel_verification_partner', accountMiddleware.authCheckMiddleware, accountMiddleware.authAdminMiddleware, accountCtrl.cancelVerificationPartner)

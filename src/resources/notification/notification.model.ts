@@ -11,7 +11,8 @@ const notificationModel = new mongoose.Schema({
   roleOfReceiver: String, // admin, partner, user
   to: {
     type: ObjectId,
-    ref: 'account'
+    ref: 'account',
+    index: true
   },
   isSeen: {
     type: Boolean,

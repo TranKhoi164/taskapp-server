@@ -26,6 +26,7 @@ class AccountFeature {
   public async filter() {
     const perPage = accountsPerpage
     const queryObj = {...this.queryString}
+    await Accounts.init()
 
     
     let queryStr: string = this.stringifyQuery(queryObj)
@@ -38,7 +39,8 @@ class AccountFeature {
     console.log(queryStr);
     this.query = await Accounts.find(JSON.parse(queryStr))
               .sort({'_id': -1})
-              .populate('services addresses')
+              .populate('services')
+              .select('avatar partnerName addresses services location cover')
               .select('-password')
               .skip(perPage*(this?.queryString?.page -1))
               .limit(perPage) // * (this?.queryString?.page -1)+perPage

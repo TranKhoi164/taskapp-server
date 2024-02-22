@@ -52,6 +52,7 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   dateOfBirth: String,
   phoneNumber: {
     type: String,
+    index: true
   },
   // male, female
   gender: {
@@ -75,9 +76,11 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   verified: {
     type: Boolean,
     default: false,
+    index: true
   },
   partnerName: {
     type: String,
+    trim: true
   },
   addresses: [
     {
@@ -92,7 +95,6 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   favouritePartners: [{
     type:ObjectId,
     ref: 'account',
-    unique: true
   }],
   services: [{
     type: ObjectId,
@@ -103,7 +105,7 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   uploadImage: [String]
 })
 
-
+accountModel.index({partnerName: 'text'})
 
 const Accounts = mongoose.model("account", accountModel)
 

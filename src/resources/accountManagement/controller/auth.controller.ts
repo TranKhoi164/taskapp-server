@@ -37,20 +37,17 @@ class AuthController implements AuthControllerInterface {
   public async registerWithEmail(req: Request, res: Response): Promise<void> {
     try {
       const { email, password, fullName } = req.body;
-      const existedAccount = await Accounts.findOne({email: email})
-      if (existedAccount && existedAccount?.verified == false) {
-        await Accounts.deleteOne({_id: existedAccount._id})
-      }
       const passwordHash = await bcrypt.hash(password, 8);
-      const newAccount = new Accounts({email: email, password: passwordHash, fullName: fullName})
-      await newAccount.save()
-
-      let resAccount = {...newAccount?._doc}
-      delete resAccount['password']
+      const newAccount = await Accounts.findOneAndUpdate(
+        {email: email, verified: false}, 
+        {email: email, password: passwordHash, fullName: fullName},
+        {upsert: true, new: true}  
+      )
+      console.log('acc: ', newAccount);
       
       sendOTP({userId: String(newAccount?._id), email: email, task: 'register'})
       .then(() => {
-        res.json({message: 'Kiểm tra email để lấy mã OTP', account: resAccount})
+        res.json({message: 'Kiểm tra email để lấy mã OTP', account: {_id: newAccount?._id, email: newAccount?.email}})
         return
       }).catch(e => {
         handleException(500, e.message, res)
@@ -68,7 +65,7 @@ class AuthController implements AuthControllerInterface {
   public async partnerRegister(req: Request, res: Response): Promise<void> {
     try {
       const { email, password, fullName, phoneNumber, description, partnerName, services, addresses, location } = req.body;
-      console.log(addresses);
+      
       if (!email || !password || !fullName || !phoneNumber || !description || !partnerName || !addresses || !location) {
         handleException(400, missingInforWarn, res)
         return
