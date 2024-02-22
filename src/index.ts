@@ -3,9 +3,8 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const app = new App(Number(process.env.PORT))
+new App(Number(process.env.PORT))
 
-app.listen()
 
 // {
 //   "src": "/(.*)",

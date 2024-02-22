@@ -47,13 +47,12 @@ class AccountController implements AccountControllerInterface {
 
   public async getAccountsInfor(req: Request, res: Response): Promise<void> {
     try {
-      console.log(req.query);
+      // console.log(req.query);
 
       const accountFeature = new AccountFeature(req.query);
       await accountFeature.filter();
       const partners = accountFeature.query;
 
-      console.log(partners);
 
       res.json({ message: "Thành công!", accounts: partners });
 

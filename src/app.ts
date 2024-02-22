@@ -20,8 +20,8 @@ class App {
     this.express = express()
     this.port = port 
     this.initializeMiddleware()
-    this.initializeDatabaseConnection()
     this.initializeRoutes()
+    this.initializeDatabaseConnectionAndListen()
   }
 
   private initializeMiddleware() {
@@ -64,27 +64,24 @@ class App {
     this.express.use('/order', orderRoutes)
   }
 
-  private async initializeDatabaseConnection() {
+  private async initializeDatabaseConnectionAndListen() {
     let mongoUrl 
     if (process.env.NODE_ENV==="development") {
       mongoUrl = process.env.MONGO_DEV
     } else {
       mongoUrl = process.env.MONGO_PRO
     }
-    mongoose.connect(String(mongoUrl))
-    .then(() => {
+    try {
+      await mongoose.connect(String(mongoUrl))
       console.log('Connect to mongoDB');
-    })
-    .catch((err: any) => {
+      this.express.listen(this.port, () => {
+        console.log(`Server is running on port ${this.port}`);
+      })
+    } catch(err: any) {
       throw new Error(err)
-    })
+    }
   }
 
-  public listen() {
-    this.express.listen(this.port, () => {
-      console.log(`Server is running on port ${this.port}`);
-    })
-  }
 }
 
 export default App
