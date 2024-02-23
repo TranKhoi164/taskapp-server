@@ -77,19 +77,21 @@ class AuthController implements AuthControllerInterface {
       }
       
       const passwordHash = await bcrypt.hash(password, 8);
-      const newAccount = new Accounts({
-        email: email,
-        password: passwordHash,
-        phoneNumber: phoneNumber,
-        fullName: fullName,
-        description: description,
-        partnerName: partnerName,
-        services: services,
-        role: 'partner',
-        addresses: addresses,
-        location: location
-      })
-      await newAccount.save()
+
+      const newAccount = await Accounts.findOneAndUpdate(
+        {email: email, verified: false}, 
+        {email: email,
+          password: passwordHash,
+          phoneNumber: phoneNumber,
+          fullName: fullName,
+          description: description,
+          partnerName: partnerName,
+          services: services,
+          role: 'partner',
+          addresses: addresses,
+          location: location},
+        {upsert: true, new: true}  
+      )
 
 
       let resAccount = {...newAccount?._doc}
@@ -99,9 +101,10 @@ class AuthController implements AuthControllerInterface {
     } catch (e: any) {
       // handleException(500, 'Tài khoản đã được tạo từ trước hoặc đang chờ xét duyệt', res);
       if (e?.code == 11000) {
-        handleException(400, 'Tài khoản đã được tạo từ trước', res)
+        handleException(400, `${JSON.stringify(e?.keyValue)} đã được tạo từ trước`, res)
         return
       }
+      console.log(e);
       handleException(500, e.message, res)
     }
   }
