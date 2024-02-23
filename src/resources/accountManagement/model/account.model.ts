@@ -93,7 +93,7 @@ const accountModel = new mongoose.Schema<AccountDocument>({
     value: String,
   }],
   favouritePartners: [{
-    type:ObjectId,
+    type: ObjectId,
     ref: 'account',
   }],
   services: [{

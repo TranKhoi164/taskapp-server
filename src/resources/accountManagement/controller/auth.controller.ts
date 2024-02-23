@@ -43,7 +43,6 @@ class AuthController implements AuthControllerInterface {
         {email: email, password: passwordHash, fullName: fullName},
         {upsert: true, new: true}  
       )
-      console.log('acc: ', newAccount);
       
       sendOTP({userId: String(newAccount?._id), email: email, task: 'register'})
       .then(() => {
@@ -101,8 +100,7 @@ class AuthController implements AuthControllerInterface {
     } catch (e: any) {
       // handleException(500, 'Tài khoản đã được tạo từ trước hoặc đang chờ xét duyệt', res);
       if (e?.code == 11000) {
-        console.log(e);
-        handleException(400, `${JSON.stringify(e?.keyValue)} đã được tạo từ trước`, res)
+        handleException(400, 'Tài khoản đã được đăng ký từ trước', res)
         return
       }
       handleException(500, e.message, res)
