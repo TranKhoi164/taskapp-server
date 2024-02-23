@@ -101,10 +101,10 @@ class AuthController implements AuthControllerInterface {
     } catch (e: any) {
       // handleException(500, 'Tài khoản đã được tạo từ trước hoặc đang chờ xét duyệt', res);
       if (e?.code == 11000) {
+        console.log(e);
         handleException(400, `${JSON.stringify(e?.keyValue)} đã được tạo từ trước`, res)
         return
       }
-      console.log(e);
       handleException(500, e.message, res)
     }
   }
