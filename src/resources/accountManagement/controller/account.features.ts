@@ -40,7 +40,7 @@ class AccountFeature {
     this.query = await Accounts.find(JSON.parse(queryStr))
               .sort({'_id': -1})
               .populate('services')
-              .select('avatar partnerName addresses services location cover')
+              .select('avatar email fullName phoneNumber partnerName addresses services location cover')
               .select('-password')
               .skip(perPage*(this?.queryString?.page -1))
               .limit(perPage) // * (this?.queryString?.page -1)+perPage
