@@ -80,7 +80,8 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   },
   partnerName: {
     type: String,
-    trim: true
+    text: true,
+    // trim: true
   },
   addresses: [
     {
@@ -108,5 +109,4 @@ const accountModel = new mongoose.Schema<AccountDocument>({
 accountModel.index({partnerName: 'text'})
 
 const Accounts = mongoose.model("account", accountModel)
-
 export default Accounts

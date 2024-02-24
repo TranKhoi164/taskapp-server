@@ -32,11 +32,11 @@ class AccountFeature {
     let queryStr: string = this.stringifyQuery(queryObj)
     queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex|text|search|in|or|elemMatch|eq)\b/g, match => '$'+match)
     
-    console.log(this?.queryString);
+    // console.log(this?.queryString);
     console.log('skip: ', perPage*(this?.queryString?.page -1));
     console.log('limit: ', perPage*(this?.queryString?.page -1)+perPage);
     // JSON.parse(queryStr)
-    console.log(queryStr);
+    console.log('queryStr: ', queryStr);
     this.query = await Accounts.find(JSON.parse(queryStr))
               .sort({'_id': -1})
               .populate('services')
