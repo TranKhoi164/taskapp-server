@@ -63,7 +63,7 @@ class UploadController {
 
       case 'cover': 
         cloudinary.v2.uploader.upload(image, {
-          folder: 'zaloTaskApp/cover', height: 150, crop: 'scale'
+          folder: 'zaloTaskApp/cover', 
         }, async (e: any, result: any) => {
           if (e) {
             handleException(400, e.message, res)

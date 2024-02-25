@@ -15,7 +15,7 @@ interface ReqQuery {
 class OrderController { //<{}, {}, {}, ReqQuery>
   public async getOrders(req: Request, res: Response) {
     try {
-      const orderService = new OrderFeature({...req.query, partner: req.body._id as string})
+      const orderService = new OrderFeature({...req.query})
       await orderService.filter()
       const orders = await orderService.query
       return res.json({message: " Thành công!", orders: orders})
@@ -56,17 +56,21 @@ class OrderController { //<{}, {}, {}, ReqQuery>
   }
   public async updateOrder(req: Request, res: Response) {
     try {
-      const {order_id, _id} = req.body
+      const {order_id, _id, role} = req.body
       if (!order_id) {
         handleException(400, missingInforWarn, res)
         return
       }
-      const update = req.body
+      console.log('update: ', req?.body);
+      const update = {...req.body}
 
       delete update['_id']
-      
-      console.log(update);
-      await Orders.updateOne({_id: order_id, partner: _id}, { $set: {...update}})
+      console.log('update: ', update);
+      if (role === 'partner') {
+        await Orders.updateOne({_id: order_id, partner: _id}, { $set: {...update}})
+      } else {
+        await Orders.updateOne({_id: order_id, user: _id}, { $set: {...update}})
+      }
       
       res.json({message: "Thành công!"})
     } catch (e: any) {
