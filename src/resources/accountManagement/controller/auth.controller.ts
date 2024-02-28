@@ -52,6 +52,7 @@ class AuthController implements AuthControllerInterface {
       }})
       console.log('reqData: ', reqData.data);
       console.log('app secret: ', ZALO_APP_SECRET_KEY);
+      console.log('appsecret_proof: ', calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY));
       const body = reqData?.data?.body
       const account = await Accounts.findOneAndUpdate(
         {zaloId: body?.id}, 
