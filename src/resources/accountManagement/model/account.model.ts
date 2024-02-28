@@ -26,6 +26,7 @@ export interface IAccount {
   location?: Array<string>
   cover?: string,
   uploadImage?: Array<string>
+  zaloId?: string
 }
 
 export interface AccountDocument extends IAccount, mongoose.Document {
@@ -37,16 +38,19 @@ const accountModel = new mongoose.Schema<AccountDocument>({
     type: String,
     trim: true,
   },
-  email: {
+  zaloId: {
     type: String,
     trim: true,
     required: true,
+  },
+  email: {
+    type: String,
+    trim: true,
     unique: true,
     lowercase: true,
   },
   password: {
     type: String,
-    required: true,
   },
   cover: String,
   dateOfBirth: String,
@@ -75,7 +79,6 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   },
   verified: {
     type: Boolean,
-    default: false,
     index: true
   },
   partnerName: {

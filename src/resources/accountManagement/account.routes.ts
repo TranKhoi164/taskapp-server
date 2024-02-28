@@ -21,6 +21,8 @@ const accountRoutes = Router()
 // accountRoutes.post('/reset_password_token', authCtrl.resetPasswordWithAccessToken)
 
 //TODO: auth routes
+// zaloAccessToken
+accountRoutes.post('/login_zalo_profile', authCtrl.loginZaloProfile)
 // take 3 arguments: fullName, email, password
 accountRoutes.post('/register_with_email', accountMiddleware.registerWithEmailMiddleware, authCtrl.registerWithEmail)
 // email, password

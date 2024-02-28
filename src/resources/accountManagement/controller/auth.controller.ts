@@ -10,6 +10,8 @@ import UserOTPVerification from "../model/userOTPVerify.model";
 import { validatePassword, validatePhoneNumber } from "../../../utils/validate";
 import { invalidPasswordWarn, missingInforWarn, phoneNumberWarn, unMatchPasswordWarn, unregisteredAccountWarn } from "../../../utils/warning";
 import Addresses from "../../address/address.model";
+import { createHmac } from "crypto";
+import axios from "axios";
 
 const jwtFlow = new JwtController();
 
@@ -32,8 +34,46 @@ const sendOTP = async (data: any) => {
   await sendOTPEmail(data?.email, otp, data?.task)
 }
 
+const calculateHMacSHA256 = (data: any, secretKey: any) => {
+  const hmac = createHmac("sha256", secretKey);
+  hmac.update(data);
+  return hmac.digest("hex");
+};
 
+const {ZALO_APP_SECRET_KEY} = process.env
 class AuthController implements AuthControllerInterface {
+  public async loginZaloProfile(req: Request, res: Response): Promise<void> {
+    try {
+      const {zaloAccessToken} = req.body
+      const data: any = axios.get("https://graph.zalo.me/v2.0/me?fields=id,name,birthday,picture", 
+      {headers: {access_token: zaloAccessToken, appsecret_proof: calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY)}})
+      console.log(data?.statusCode);
+      const body = data?.body
+      const account = await Accounts.findOneAndUpdate(
+        {zaloId: body?.id}, 
+        {fullName: body?.name, zaloId: body?.id, avatar: body?.picure?.data?.url},
+        {upsert: true, new: true}  
+      )
+      .populate('addresses')
+      .populate('services')
+
+      const access_token = jwtFlow.createAccessToken({ _id: account?._id });
+      jwtFlow.createRefreshToken({ _id: account?._id }, res);
+  
+      let resAccount = {...account._doc}
+      delete resAccount['password']
+  
+      res.json({ message: "Đăng nhập thành công", account: { ...resAccount, access_token } });
+    } catch (e: any) {
+      if (e?.code == 11000){
+        handleException(400, 'Tài khoản đã được đăng ký từ trước', res);
+        return
+      }
+      handleException(500, e.message, res);
+    }
+  }
+
+
   public async registerWithEmail(req: Request, res: Response): Promise<void> {
     try {
       const { email, password, fullName } = req.body;
