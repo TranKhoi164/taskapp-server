@@ -50,9 +50,13 @@ class AuthController implements AuthControllerInterface {
         access_token: zaloAccessToken, 
         appsecret_proof: calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY)
       }})
-      console.log('reqData: ', reqData.data);
+      console.log('reqData: ', reqData);
       console.log('app secret: ', ZALO_APP_SECRET_KEY);
       console.log('appsecret_proof: ', calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY));
+      if (reqData?.data?.error) {
+        handleException(400, reqData?.data?.message, res);
+        return
+      }
       const body = reqData?.data?.body
       const account = await Accounts.findOneAndUpdate(
         {zaloId: body?.id}, 
@@ -67,7 +71,7 @@ class AuthController implements AuthControllerInterface {
   
       let resAccount = {...account._doc}
       delete resAccount['password']
-  
+
       res.json({ message: "Đăng nhập thành công", account: { ...resAccount, access_token } });
     } catch (e: any) {
       if (e?.code == 11000){
