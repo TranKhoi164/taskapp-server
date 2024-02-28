@@ -45,7 +45,6 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   email: {
     type: String,
     trim: true,
-    unique: true,
     lowercase: true,
   },
   password: {

@@ -53,7 +53,7 @@ class AuthController implements AuthControllerInterface {
       }
     })
     console.log('data: ', reqData.data);
-    if (reqData?.data?.error > 0) {
+    if (reqData?.data?.error != 0) {
       handleException(400, reqData?.data?.message, res);
       return
     }
