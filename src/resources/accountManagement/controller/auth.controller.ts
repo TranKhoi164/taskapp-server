@@ -46,9 +46,13 @@ class AuthController implements AuthControllerInterface {
       const {zaloAccessToken} = req.body
       console.log('token: ', zaloAccessToken);
       const reqData: any = await axios.get("https://graph.zalo.me/v2.0/me?fields=id,name,birthday,picture", 
-      {headers: {access_token: zaloAccessToken, appsecret_proof: calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY)}})
-      console.log('reqData: ', reqData);
-      const body = reqData?.body
+      {headers: {
+        access_token: zaloAccessToken, 
+        appsecret_proof: calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY)
+      }})
+      console.log('reqData: ', reqData.data);
+      console.log('app secret: ', ZALO_APP_SECRET_KEY);
+      const body = reqData?.data?.body
       const account = await Accounts.findOneAndUpdate(
         {zaloId: body?.id}, 
         {fullName: body?.name, zaloId: body?.id, avatar: body?.picure?.data?.url},
@@ -56,8 +60,6 @@ class AuthController implements AuthControllerInterface {
       )
       .populate('addresses')
       .populate('services')
-
-      console.log(account);
 
       const access_token = jwtFlow.createAccessToken({ _id: account?._id });
       jwtFlow.createRefreshToken({ _id: account?._id }, res);
