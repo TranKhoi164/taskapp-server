@@ -45,7 +45,7 @@ class AuthController implements AuthControllerInterface {
     try {
       const {zaloAccessToken} = req.body
       console.log('token: ', zaloAccessToken);
-      const reqData: any = axios.get("https://graph.zalo.me/v2.0/me?fields=id,name,birthday,picture", 
+      const reqData: any = await axios.get("https://graph.zalo.me/v2.0/me?fields=id,name,birthday,picture", 
       {headers: {access_token: zaloAccessToken, appsecret_proof: calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY)}})
       console.log('reqData: ', reqData);
       const body = reqData?.body
