@@ -15,7 +15,7 @@ import axios from "axios";
 
 const jwtFlow = new JwtController();
 
-const { CLIENT_DEV, CLIENT_PRO, CLIENT_TEST, NODE_ENV } = process.env;
+const { CLIENT_DEV, CLIENT_PRO, CLIENT_TEST, NODE_ENV, ZALO_APP_SECRET_KEY } = process.env;
 
 //userId, email, task
 const sendOTP = async (data: any) => {
@@ -40,15 +40,15 @@ const calculateHMacSHA256 = (data: any, secretKey: any) => {
   return hmac.digest("hex");
 };
 
-const {ZALO_APP_SECRET_KEY} = process.env
 class AuthController implements AuthControllerInterface {
   public async loginZaloProfile(req: Request, res: Response): Promise<void> {
     try {
       const {zaloAccessToken} = req.body
-      const data: any = axios.get("https://graph.zalo.me/v2.0/me?fields=id,name,birthday,picture", 
+      console.log('token: ', zaloAccessToken);
+      const reqData: any = axios.get("https://graph.zalo.me/v2.0/me?fields=id,name,birthday,picture", 
       {headers: {access_token: zaloAccessToken, appsecret_proof: calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY)}})
-      console.log(data?.statusCode);
-      const body = data?.body
+      console.log('reqData: ', reqData);
+      const body = reqData?.body
       const account = await Accounts.findOneAndUpdate(
         {zaloId: body?.id}, 
         {fullName: body?.name, zaloId: body?.id, avatar: body?.picure?.data?.url},
@@ -56,6 +56,8 @@ class AuthController implements AuthControllerInterface {
       )
       .populate('addresses')
       .populate('services')
+
+      console.log(account);
 
       const access_token = jwtFlow.createAccessToken({ _id: account?._id });
       jwtFlow.createRefreshToken({ _id: account?._id }, res);
