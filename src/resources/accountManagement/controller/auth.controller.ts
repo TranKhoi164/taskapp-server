@@ -51,12 +51,27 @@ class AuthController implements AuthControllerInterface {
         secret_key: ZALO_APP_SECRET_KEY,
       }
     })
+    console.log('data: ', reqData.data);
     if (reqData?.data?.error) {
       handleException(400, reqData?.data?.message, res);
       return
     }
-    console.log(reqData?.data);
-    res.json({message: 'Thành công!', phoneNumber: reqData?.data?.data?.number})
+    const data = reqData?.data
+    const account = await Accounts.findOneAndUpdate(
+      {phoneNumber: data?.data?.number}, 
+      {phoneNumber: data?.data?.number},
+      {upsert: true, new: true}  
+    )
+    .populate('addresses')
+    .populate('services')
+
+    const access_token = jwtFlow.createAccessToken({ _id: account?._id });
+    jwtFlow.createRefreshToken({ _id: account?._id }, res);
+
+    let resAccount = {...account._doc}
+    delete resAccount['password']
+
+    res.json({ message: "Đăng nhập thành công", account: { ...resAccount, access_token } });
   }
   public async loginZaloProfile(req: Request, res: Response): Promise<void> {
     try {
