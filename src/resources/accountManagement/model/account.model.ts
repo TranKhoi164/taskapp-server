@@ -41,7 +41,6 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   zaloId: {
     type: String,
     trim: true,
-    required: true,
   },
   email: {
     type: String,
