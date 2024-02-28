@@ -43,6 +43,7 @@ const calculateHMacSHA256 = (data: any, secretKey: any) => {
 class AuthController implements AuthControllerInterface {
   public async loginZaloPhoneNumber(req: Request, res: Response): Promise<void> {
     const {phoneNumberToken, zaloAccessToken} = req.body
+    console.log('body: ', req.body);
     const endPoint = "https://graph.zalo.me/v2.0/me/info"
     const reqData = await axios.get(endPoint, {
       headers: {
@@ -52,7 +53,7 @@ class AuthController implements AuthControllerInterface {
       }
     })
     console.log('data: ', reqData.data);
-    if (reqData?.data?.error) {
+    if (reqData?.data?.error > 0) {
       handleException(400, reqData?.data?.message, res);
       return
     }
