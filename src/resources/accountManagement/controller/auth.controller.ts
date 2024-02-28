@@ -62,22 +62,22 @@ class AuthController implements AuthControllerInterface {
     try {
       const {zaloAccessToken} = req.body
       console.log('token: ', zaloAccessToken);
-      const reqData: any = await axios.get("https://graph.zalo.me/v2.0/me?fields=id", 
+      const reqData: any = await axios.get("https://graph.zalo.me/v2.0/me?fields=id,name,birthday,picture", 
       {headers: {
         access_token: zaloAccessToken, 
         appsecret_proof: calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY)
       }})
-      console.log('reqData: ', reqData);
+      console.log('reqData: ', reqData.data);
       console.log('app secret: ', ZALO_APP_SECRET_KEY);
       console.log('appsecret_proof: ', calculateHMacSHA256(zaloAccessToken, ZALO_APP_SECRET_KEY));
       if (reqData?.data?.error) {
         handleException(400, reqData?.data?.message, res);
         return
       }
-      const body = reqData?.data?.body
+      const data = reqData?.data
       const account = await Accounts.findOneAndUpdate(
-        {zaloId: body?.id}, 
-        {fullName: body?.name, zaloId: body?.id, avatar: body?.picure?.data?.url},
+        {zaloId: data?.id}, 
+        {fullName: data?.body?.name, zaloId: data?.body?.id, avatar: data?.body?.picure?.data?.url},
         {upsert: true, new: true}  
       )
       .populate('addresses')
