@@ -40,7 +40,7 @@ accountRoutes.get('/logout', accountMiddleware.authCheckMiddleware, authCtrl.use
 //todo: partnerRoutes 
 //get email, password, fullName, phoneNumber, description, partnerName, province, district, ward, address, service 
 accountRoutes.get('/accounts_infor', accountCtrl.getAccountsInfor)
-accountRoutes.post('/partner_register', accountMiddleware.registerWithEmailMiddleware, authCtrl.partnerRegister)
+accountRoutes.post('/partner_register', authCtrl.partnerRegister)
 //TODO: account routes
 //get fav partner
 accountRoutes.get('/favourite_partners/:user_id', accountCtrl.getFavouritePartners)

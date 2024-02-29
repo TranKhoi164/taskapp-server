@@ -145,9 +145,9 @@ class AuthController implements AuthControllerInterface {
 
   public async partnerRegister(req: Request, res: Response): Promise<void> {
     try {
-      const { email, password, fullName, phoneNumber, description, partnerName, services, addresses, location } = req.body;
+      const { email, fullName, phoneNumber, description, partnerName, services, addresses, location } = req.body;
       
-      if (!email || !password || !fullName || !phoneNumber || !description || !partnerName || !addresses || !location) {
+      if (!email || !fullName || !phoneNumber || !description || !partnerName || !addresses || !location) {
         handleException(400, missingInforWarn, res)
         return
       }
@@ -157,12 +157,10 @@ class AuthController implements AuthControllerInterface {
         return
       }
       
-      const passwordHash = await bcrypt.hash(password, 8);
 
-      const newAccount = await Accounts.findOneAndUpdate(
+      const newAccount: any = await Accounts.findOneAndUpdate(
         {email: email, verified: false}, 
         {email: email,
-          password: passwordHash,
           phoneNumber: phoneNumber,
           fullName: fullName,
           description: description,
