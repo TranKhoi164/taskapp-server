@@ -20,7 +20,7 @@ export const validateStringLength = (username: string, len: number) => {
 }
 
 export const validatePhoneNumber = (phoneNumber: string) => {
-  if (phoneNumber[0] === '0' && phoneNumber.length === 10) {
+  if ((phoneNumber[0] === '0' || phoneNumber?.slice(0, 2) == '84') && phoneNumber?.length <= 12) {
     return true
   } else return false
 }
