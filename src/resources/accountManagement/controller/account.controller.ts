@@ -94,13 +94,13 @@ class AccountController implements AccountControllerInterface {
     res: Response
   ): Promise<void> {
     try {
+      //addresses,details,services,location,uploadImage
       const { partnerId, partnerEmail } = req.body;
-      console.log(partnerEmail);
       await Accounts.updateOne(
         { _id: partnerId, role: "partner" },
         { verified: false }
       );
-      await sendOTPEmail(partnerEmail, "", "unverifyPartner");
+      // await sendOTPEmail(partnerEmail, "", "unverifyPartner");
       res.json({ message: "Thành công!" });
     } catch (e: any) {
       handleException(500, e.message, res);
@@ -109,10 +109,19 @@ class AccountController implements AccountControllerInterface {
 
   public async deletePartner(req: Request, res: Response): Promise<void> {
     try {
+      //addresses,details,services,location,uploadImage
       const { partnerId, partnerEmail } = req.body;
-      console.log(partnerEmail);
-      await Accounts.deleteOne({ _id: partnerId, role: "partner" });
-      await sendOTPEmail(partnerEmail, "", "deletePartner");
+      await Accounts.updateOne({ _id: partnerId, role: "partner" }, {
+        addresses: [],
+        details: [],
+        services: [],
+        location: [],
+        uploadImage: [],
+        description: '',
+        role: 'user'
+      })
+        
+      // await sendOTPEmail(partnerEmail, "", "deletePartner");
       res.json({ message: "Thành công!" });
     } catch (e: any) {
       handleException(500, e.message, res);

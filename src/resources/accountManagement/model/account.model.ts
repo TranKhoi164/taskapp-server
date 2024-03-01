@@ -38,10 +38,6 @@ const accountModel = new mongoose.Schema<AccountDocument>({
     type: String,
     trim: true,
   },
-  zaloId: {
-    type: String,
-    trim: true,
-  },
   email: {
     type: String,
     trim: true,
@@ -82,8 +78,8 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   partnerName: {
     type: String,
     text: true,
-    // trim: true
-  },
+    // trim: true  
+  },//addresses,details,services,location,uploadImage
   addresses: [
     {
       type: ObjectId,
