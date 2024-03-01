@@ -159,8 +159,9 @@ class AuthController implements AuthControllerInterface {
       
 
       const newAccount: any = await Accounts.findOneAndUpdate(
-        {email: email, verified: false}, 
-        {email: email,
+        {phoneNumber: phoneNumber, verified: false}, 
+        {
+          email: email,
           phoneNumber: phoneNumber,
           fullName: fullName,
           description: description,
