@@ -54,7 +54,6 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   dateOfBirth: String,
   phoneNumber: {
     type: String,
-    index: true,
     unique: true,
   },
   // male, female
