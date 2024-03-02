@@ -170,7 +170,6 @@ class AuthController implements AuthControllerInterface {
           role: 'partner',
           addresses: addresses,
           location: location},
-        {upsert: true, new: true}  
       )
 
 
@@ -181,7 +180,7 @@ class AuthController implements AuthControllerInterface {
     } catch (e: any) {
       // handleException(500, 'Tài khoản đã được tạo từ trước hoặc đang chờ xét duyệt', res);
       if (e?.code == 11000) {
-        handleException(400, 'Tài khoản đã được đăng ký từ trước', res)
+        handleException(400, e.message, res)
         return
       }
       handleException(500, e.message, res)

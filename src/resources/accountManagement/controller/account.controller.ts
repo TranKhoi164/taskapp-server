@@ -31,7 +31,7 @@ class AccountController implements AccountControllerInterface {
           .select("-password")
           .clone()
           .then((account: any) => {
-            res.json({ account });
+            res.json({ account: account });
           })
           .catch((e: any) => {
             if (e) {
