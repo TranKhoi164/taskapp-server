@@ -172,7 +172,11 @@ class AuthController implements AuthControllerInterface {
           location: location,
           verified: false
         },
+        {upsert: true, new: true}
       )
+      .populate('addresses')
+      .populate('services')
+
       const resAccount = {...newAccount?._doc}
       
       res.json({message: "Tài khoản đang được xét duyệt", account: resAccount})
