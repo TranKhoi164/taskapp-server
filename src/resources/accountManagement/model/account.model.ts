@@ -73,7 +73,6 @@ const accountModel = new mongoose.Schema<AccountDocument>({
   },
   verified: {
     type: Boolean,
-    default: false,
     index: true
   },
   partnerName: {

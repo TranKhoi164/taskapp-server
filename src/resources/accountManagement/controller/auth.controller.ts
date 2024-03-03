@@ -159,7 +159,7 @@ class AuthController implements AuthControllerInterface {
       
 
       const newAccount: any = await Accounts.findOneAndUpdate(
-        {phoneNumber: phoneNumber, verified: false}, 
+        {phoneNumber: phoneNumber}, 
         {
           email: email,
           phoneNumber: phoneNumber,
@@ -173,8 +173,9 @@ class AuthController implements AuthControllerInterface {
           verified: false
         },
       )
+      const resAccount = {...newAccount?._doc}
       
-      res.json({message: "Tài khoản đang được xét duyệt"})
+      res.json({message: "Tài khoản đang được xét duyệt", account: resAccount})
     } catch (e: any) {
       // handleException(500, 'Tài khoản đã được tạo từ trước hoặc đang chờ xét duyệt', res);
       if (e?.code == 11000) {
