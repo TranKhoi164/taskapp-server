@@ -170,15 +170,11 @@ class AuthController implements AuthControllerInterface {
           role: 'partner',
           addresses: addresses,
           location: location,
-          verified: false
+          verified: true
         },
       )
-
-
-      let resAccount = {...newAccount?._doc}
-      delete resAccount['password']
       
-      res.json({message: "Tài khoản đang được xét duyệt. Kết quả sẽ được gửi về email"})
+      res.json({message: "Tài khoản đang được xét duyệt"})
     } catch (e: any) {
       // handleException(500, 'Tài khoản đã được tạo từ trước hoặc đang chờ xét duyệt', res);
       if (e?.code == 11000) {
