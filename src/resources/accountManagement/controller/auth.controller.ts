@@ -170,7 +170,7 @@ class AuthController implements AuthControllerInterface {
           role: 'partner',
           addresses: addresses,
           location: location,
-          verified: true
+          verified: false
         },
       )
       
