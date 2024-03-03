@@ -82,7 +82,7 @@ class AccountController implements AccountControllerInterface {
         { _id: partnerId, role: "partner" },
         { verified: true }
       );
-      await sendOTPEmail(partnerEmail, "", "verifyPartner");
+      // await sendOTPEmail(partnerEmail, "", "verifyPartner");
       res.json({ message: "Thành công!" });
     } catch (e: any) {
       handleException(500, e.message, res);

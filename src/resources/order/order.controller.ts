@@ -26,14 +26,14 @@ class OrderController { //<{}, {}, {}, ReqQuery>
 
   public async createOrder(req: Request, res: Response) {
     try {
-      const {user, partner, userName, location, phoneNumber, email, date, service, province, userNote, district, ward, address} = req.body
-      if ( !partner || !userName || !phoneNumber || !email || !date || !service || !province || !district || !ward || !address) {
+      const {user, partner, userName, location, phoneNumber, date, service, province, userNote, district, ward, address} = req.body
+      if ( !partner || !userName || !phoneNumber || !date || !service || !province || !district || !ward || !address) {
         handleException(400, missingInforWarn, res)
         return
       }
       const newAddress = new Addresses({province, ward, district, address})
       await newAddress.save()
-      const newOrder = new Orders({user, location, partner, userName, phoneNumber, email, date, service, address: newAddress?._id, userNote})
+      const newOrder = new Orders({user, location, partner, userName, phoneNumber, date, service, address: newAddress?._id, userNote})
       await newOrder.save()
       return res.json({message: "Thành công!", order: newOrder})
     } catch (e: any) {
